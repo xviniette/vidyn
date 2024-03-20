@@ -61,10 +61,10 @@ render.set({
             start: 0,
             duration: 5000,
             data: {
-                text: "Hi xviniette!",
+                text: "Putain  quel BG de fou",
                 x: 320,
                 y: 180,
-                width: 320,
+                width: 200,
                 fontSize: 30,
                 fillStyle: "#000000",
                 font: "https://fonts.gstatic.com/s/inter/v7/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYMZhrib2Bg-4.ttf",
@@ -95,7 +95,7 @@ render.set({
             start: 0,
             duration: 5000,
             data: {
-                text: "You have 257 followers.",
+                text: "Ça me régale !",
                 x: 320,
                 y: 187.20000000000002,
                 width: 320,

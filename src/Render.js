@@ -5,23 +5,6 @@ import { ArrayBufferTarget, Muxer } from "mp4-muxer"
 
 const loadedFonts = []
 
-const getColor = (ctx, color, width, height) => {
-    if (typeof color == "string") return color
-
-    const { angle, colors } = color
-    const gradient = ctx.createLinearGradient(0, 0, width || 0, height || 0)
-
-    colors.forEach((color, colorIndex) => {
-        if (typeof color == "string") {
-            gradient.addColorStop(colorIndex / colors.length, color)
-        } else {
-            gradient.addColorStop(color.x, color.color)
-        }
-    })
-
-    return gradient
-}
-
 const durationFormat = duration => {
     if (duration <= 0) duration = 0
     duration = Math.round(duration / 1000)
@@ -81,46 +64,81 @@ export default class {
 
         const controls = document.createElement("div")
         controls.style.position = "absolute"
+        controls.style.display = "flex"
+        controls.style.justifyContent = "flex-end"
+        controls.style.flexDirection = "column"
+        controls.style.gap = "5px"
         controls.style.width = "100%"
+        controls.style.height = "100%"
         controls.style.bottom = 0
         controls.style.left = 0
+        controls.style.color = "white"
+        controls.style.padding = "10px"
+        controls.style.boxSizing = "border-box"
+        controls.style.fontFamily =
+            'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
+        controls.style.background = "linear-gradient(180deg, rgba(0,0,0,0) 80%, rgba(50,50,50,1) 95%, rgba(0,0,0,1) 100%)"
+        controls.addEventListener("click", e => (this.playing = !this.playing))
+        controls.style.transition = "opacity 200ms ease-in-out 0ms"
+
+        // controls.style.opacity = 0
+        // controls.addEventListener("mouseover", () => (controls.style.opacity = 100))
+        // controls.addEventListener("mouseout", () => (controls.style.opacity = 0))
 
         divElement.appendChild(controls)
 
-        this.canvas.addEventListener("click", e => (this.playing = !this.playing))
-
         const buttons = document.createElement("div")
         buttons.style.display = "flex"
+
         buttons.style.justifyContent = "space-between"
         controls.appendChild(buttons)
 
         const buttonsLeft = document.createElement("div")
         buttonsLeft.style.display = "flex"
+        buttonsLeft.style.alignItems = "center"
+        buttonsLeft.style.gap = "5px"
         buttons.appendChild(buttonsLeft)
 
         const buttonsRight = document.createElement("div")
         buttonsRight.style.display = "flex"
+
         buttons.appendChild(buttonsRight)
 
         //Play button
-        const play = document.createElement("button")
+        const play = document.createElement("div")
+        play.style.padding = "10px"
+        play.style.marginLeft = "-5px"
+        play.style.marginBottom = "-10px"
+        play.style.cursor = "pointer"
+        play.appendChild(document.createElement("svg"))
         play.addEventListener("click", () => (this.playing = !this.playing))
         buttonsLeft.appendChild(play)
 
         // Timer
         const timer = document.createElement("div")
+        timer.style.userSelect = "none"
+        timer.style.marginBottom = "-10px"
+        timer.style.fontSize = "15px"
         buttonsLeft.appendChild(timer)
 
         //Download
-        const download = document.createElement("button")
+        const download = document.createElement("div")
+        download.style.padding = "10px"
+        download.style.marginRight = "-5px"
+        download.style.marginBottom = "-10px"
+        download.innerHTML =
+            '<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M15 9h4l-7 7-7-7h4V3h6v6ZM5 20v-2h14v2H5Z" clip-rule="evenodd"></path></svg>'
+        download.style.cursor = "pointer"
         download.addEventListener("click", () => this.exportMP4())
         buttonsRight.appendChild(download)
 
         //progress
         const progress = document.createElement("div")
-        progress.style.height = "10px"
+        progress.style.height = "5px"
         progress.style.width = "100%"
-        progress.style.backgroundColor = "rgba(0, 0, 0, 0.25)"
+        progress.style.backgroundColor = "rgb(150, 150, 150)"
+        progress.style.borderRadius = "10px"
+        progress.style.overflow = "hidden"
         const setTimestamp = e => {
             const rect = e.currentTarget.getBoundingClientRect()
             const x = e.clientX - rect.left
@@ -129,12 +147,15 @@ export default class {
         progress.addEventListener("pointerdown", e => {
             e.preventDefault()
             progress.pointerisdown = true
+            progress.playing = this.playing
+            this.playing = false
             setTimestamp(e)
         })
-        progress.addEventListener("pointerup", e => {
-            e.preventDefault()
-
-            progress.pointerisdown = false
+        document.addEventListener("pointerup", e => {
+            if (progress.pointerisdown) {
+                progress.pointerisdown = false
+                this.playing = progress.playing
+            }
         })
         progress.addEventListener("pointermove", e => {
             e.preventDefault()
@@ -144,7 +165,7 @@ export default class {
         const progressBar = document.createElement("div")
         progressBar.style.height = "100%"
         progressBar.style.width = "50%"
-        progressBar.style.backgroundColor = "rgba(255, 255, 255, 0.75)"
+        progressBar.style.backgroundColor = "rgb(255, 255, 255)"
         progressBar.style.pointerEvents = "none"
 
         progress.appendChild(progressBar)
@@ -165,6 +186,20 @@ export default class {
         //TIMER
         this.UI.timer.innerText = `${durationFormat(this.timestamp)} / ${durationFormat(this.duration)}`
         this.UI.progressBar.style.width = `${(this.timestamp / this.duration) * 100}%`
+
+        if (this.rendering) {
+            this.UI.parent.style.filter = "grayscale() blur(5px)"
+        } else {
+            this.UI.parent.style.filter = ""
+        }
+
+        if (this.playing) {
+            this.UI.play.firstChild.innerHTML =
+                '<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7L8 5Z"></path></svg>'
+        } else {
+            this.UI.play.firstChild.innerHTML =
+                '<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 19H6V5h4v14Zm4 0V5h4v14h-4Z" clip-rule="evenodd"></path></svg>'
+        }
     }
 
     export() {
@@ -599,7 +634,7 @@ export default class {
 
         this.ctx.save()
 
-        this.ctx.fillStyle = getColor(this.ctx, this.data.settings.color, this.canvas.width, this.canvas.height) || "#ffffff"
+        this.ctx.fillStyle = this.data.settings.color || "#ffffff"
 
         this.ctx.fillRect(0, 0, this.data.settings.width, this.data.settings.height)
 

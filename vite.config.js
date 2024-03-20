@@ -5,8 +5,8 @@ export default defineConfig({
     build: {
         lib: {
             entry: resolve(__dirname, "src/Render.js"),
-            name: "VideoBrowserRendering",
-            fileName: "vbr",
+            name: "VideoRendering",
+            fileName: "video-rendering",
         },
     },
 })
