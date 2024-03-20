@@ -22,6 +22,14 @@ const getColor = (ctx, color, width, height) => {
     return gradient
 }
 
+const durationFormat = duration => {
+    if (duration <= 0) duration = 0
+    duration = Math.round(duration / 1000)
+    const minutes = Math.floor(duration / 60)
+    const secondes = duration - minutes * 60
+    return `${minutes}:${secondes > 9 ? "" : "0"}${secondes}`
+}
+
 export default class {
     constructor(json) {
         this.canvas = null
@@ -51,9 +59,112 @@ export default class {
         window.render = this
     }
 
+    setElement(divElement) {
+        this.setCanvas()
+
+        if (!divElement) return
+        divElement.appendChild(this.canvas)
+
+        this.setControls(divElement)
+    }
+
     setCanvas(canvas) {
         this.canvas = canvas || document.createElement("canvas")
         this.ctx = this.canvas.getContext("2d", { desynchronized: true })
+
+        this.canvas.style.width = "100%"
+        this.canvas.style.height = "100%"
+    }
+
+    setControls(divElement) {
+        divElement.style.position = "relative"
+
+        const controls = document.createElement("div")
+        controls.style.position = "absolute"
+        controls.style.width = "100%"
+        controls.style.bottom = 0
+        controls.style.left = 0
+
+        divElement.appendChild(controls)
+
+        this.canvas.addEventListener("click", e => (this.playing = !this.playing))
+
+        const buttons = document.createElement("div")
+        buttons.style.display = "flex"
+        buttons.style.justifyContent = "space-between"
+        controls.appendChild(buttons)
+
+        const buttonsLeft = document.createElement("div")
+        buttonsLeft.style.display = "flex"
+        buttons.appendChild(buttonsLeft)
+
+        const buttonsRight = document.createElement("div")
+        buttonsRight.style.display = "flex"
+        buttons.appendChild(buttonsRight)
+
+        //Play button
+        const play = document.createElement("button")
+        play.addEventListener("click", () => (this.playing = !this.playing))
+        buttonsLeft.appendChild(play)
+
+        // Timer
+        const timer = document.createElement("div")
+        buttonsLeft.appendChild(timer)
+
+        //Download
+        const download = document.createElement("button")
+        download.addEventListener("click", () => this.exportMP4())
+        buttonsRight.appendChild(download)
+
+        //progress
+        const progress = document.createElement("div")
+        progress.style.height = "10px"
+        progress.style.width = "100%"
+        progress.style.backgroundColor = "rgba(0, 0, 0, 0.25)"
+        const setTimestamp = e => {
+            const rect = e.currentTarget.getBoundingClientRect()
+            const x = e.clientX - rect.left
+            this.setTimestamp((x / e.currentTarget.offsetWidth) * this.duration)
+        }
+        progress.addEventListener("pointerdown", e => {
+            e.preventDefault()
+            progress.pointerisdown = true
+            setTimestamp(e)
+        })
+        progress.addEventListener("pointerup", e => {
+            e.preventDefault()
+
+            progress.pointerisdown = false
+        })
+        progress.addEventListener("pointermove", e => {
+            e.preventDefault()
+            if (progress.pointerisdown) setTimestamp(e)
+        })
+
+        const progressBar = document.createElement("div")
+        progressBar.style.height = "100%"
+        progressBar.style.width = "50%"
+        progressBar.style.backgroundColor = "rgba(255, 255, 255, 0.75)"
+        progressBar.style.pointerEvents = "none"
+
+        progress.appendChild(progressBar)
+        controls.appendChild(progress)
+
+        this.UI = { play, timer, download, controls, parent: divElement, progress, progressBar }
+    }
+
+    updateUI() {
+        if (!this.UI) return
+
+        if (!this.data) return
+
+        //PARENT SIZE
+        this.UI.parent.style.width = this.data.settings.width + "px"
+        this.UI.parent.style.height = this.data.settings.height + "px"
+
+        //TIMER
+        this.UI.timer.innerText = `${durationFormat(this.timestamp)} / ${durationFormat(this.duration)}`
+        this.UI.progressBar.style.width = `${(this.timestamp / this.duration) * 100}%`
     }
 
     export() {
@@ -477,6 +588,8 @@ export default class {
         if (!this.canvas) return
         if (!this.ctx) return
         if (!this.data) return
+
+        this.updateUI()
 
         this.emit("render", { progress: this.timestamp / this.duration, timestamp: this.timestamp, duration: this.duration })
 

@@ -8,7 +8,7 @@ document.querySelector("#download").addEventListener("click", () => {
     render.exportMP4()
 })
 
-render.setCanvas(document.querySelector("#canvas"))
+render.setElement(document.querySelector("#render"))
 
 render.playing = true
 
