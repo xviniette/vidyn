@@ -81,9 +81,9 @@ export default class {
         controls.addEventListener("click", e => (this.playing = !this.playing))
         controls.style.transition = "opacity 200ms ease-in-out 0ms"
 
-        // controls.style.opacity = 0
-        // controls.addEventListener("mouseover", () => (controls.style.opacity = 100))
-        // controls.addEventListener("mouseout", () => (controls.style.opacity = 0))
+        controls.style.opacity = 0
+        controls.addEventListener("mouseover", () => (controls.style.opacity = 100))
+        controls.addEventListener("mouseout", () => (controls.style.opacity = 0))
 
         divElement.appendChild(controls)
 
