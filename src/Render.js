@@ -180,8 +180,8 @@ export default class {
         if (!this.data) return
 
         //PARENT SIZE
-        this.UI.parent.style.width = this.data.settings.width + "px"
-        this.UI.parent.style.height = this.data.settings.height + "px"
+        // this.UI.parent.style.width = this.data.settings.width + "px"
+        // this.UI.parent.style.height = this.data.settings.height + "px"
 
         //TIMER
         this.UI.timer.innerText = `${durationFormat(this.timestamp)} / ${durationFormat(this.duration)}`
