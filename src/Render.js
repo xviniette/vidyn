@@ -77,7 +77,7 @@ export default class {
         controls.style.boxSizing = "border-box"
         controls.style.fontFamily =
             'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
-        controls.style.background = "linear-gradient(180deg, rgba(0,0,0,0) 80%, rgba(50,50,50,1) 95%, rgba(0,0,0,1) 100%)"
+        controls.style.background = "linear-gradient(180deg, rgba(0,0,0,0) 80%, rgba(0,0,0,1) 100%)"
         controls.addEventListener("click", e => (this.playing = !this.playing))
         controls.style.transition = "opacity 200ms ease-in-out 0ms"
 
