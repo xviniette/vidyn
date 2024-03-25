@@ -14,11 +14,7 @@ export default defineConfig({
     },
     plugins: [
         obfuscatorPlugin({
-            options: {
-                // your javascript-obfuscator options
-                debugProtection: true,
-                // ...  [See more options](https://github.com/javascript-obfuscator/javascript-obfuscator)
-            },
+            options: {},
         }),
     ],
 })
