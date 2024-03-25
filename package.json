@@ -1,17 +1,19 @@
 {
-  "name": "video-browser-rendering",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "devDependencies": {
-    "vite": "^5.1.6"
-  },
-  "dependencies": {
-    "mp4-muxer": "^4.0.1"
-  }
+    "name": "video-browser-rendering",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "devDependencies": {
+        "rollup-obfuscator": "^4.1.1",
+        "vite": "^5.1.6",
+        "vite-plugin-javascript-obfuscator": "^3.1.0"
+    },
+    "dependencies": {
+        "mp4-muxer": "^4.0.1"
+    }
 }
