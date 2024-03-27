@@ -75,8 +75,7 @@ export default class {
         controls.style.color = "white"
         controls.style.padding = "10px"
         controls.style.boxSizing = "border-box"
-        controls.style.fontFamily =
-            'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
+
         controls.style.background = "linear-gradient(180deg, rgba(0,0,0,0) 80%, rgba(0,0,0,1) 100%)"
         controls.addEventListener("click", e => (this.playing = !this.playing))
         controls.style.transition = "opacity 200ms ease-in-out 0ms"
@@ -84,6 +83,9 @@ export default class {
         controls.style.opacity = 0
         controls.addEventListener("mouseover", () => (controls.style.opacity = 100))
         controls.addEventListener("mouseout", () => (controls.style.opacity = 0))
+
+        divElement.style.fontFamily =
+            'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
 
         divElement.appendChild(controls)
 
@@ -170,6 +172,18 @@ export default class {
 
         progress.appendChild(progressBar)
         controls.appendChild(progress)
+
+        const watermark = document.createElement("a")
+        watermark.href = "https://smooth.video"
+        watermark.target = "_blank"
+        watermark.innerText = "Made with smooth.video"
+        watermark.style.position = "absolute"
+        watermark.style.top = 0
+        watermark.style.right = 0
+        watermark.style.textDecoration = "none"
+        watermark.style.color = "black"
+
+        divElement.appendChild(watermark)
 
         this.UI = { play, timer, download, controls, parent: divElement, progress, progressBar }
     }

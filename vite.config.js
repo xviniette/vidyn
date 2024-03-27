@@ -1,7 +1,6 @@
 import { resolve } from "path"
 import { defineConfig } from "vite"
 
-// import { obfuscator } from "rollup-obfuscator"
 import obfuscatorPlugin from "vite-plugin-javascript-obfuscator"
 
 export default defineConfig({
