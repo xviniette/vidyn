@@ -21,7 +21,7 @@ export default class {
         this.data = null
 
         this.timestamp = 0
-        this.playing = false
+        this.playing = true
         this.loop = true
 
         this.events = []
@@ -178,10 +178,12 @@ export default class {
         watermark.target = "_blank"
         watermark.innerText = "Made with smooth.video"
         watermark.style.position = "absolute"
+        watermark.style.textShadow = "0px 0px 2px black"
+        watermark.style.fontSize = "1em"
         watermark.style.top = 0
         watermark.style.right = 0
         watermark.style.textDecoration = "none"
-        watermark.style.color = "black"
+        watermark.style.color = "white"
 
         divElement.appendChild(watermark)
 
