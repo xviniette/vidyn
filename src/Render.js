@@ -220,6 +220,7 @@ export default class {
 
     export() {
         return new Promise(async (resolve, reject) => {
+            let currentPlaying = this.playing
             this.playing = false
             try {
                 const audioElements = this.getFlattenElements(this.data).filter(e => ["audio", "video"].includes(e.type))
@@ -381,6 +382,8 @@ export default class {
             } catch (error) {
                 reject(error)
             }
+
+            this.playing = currentPlaying
         })
     }
 
@@ -388,7 +391,7 @@ export default class {
         return new Promise(resolve => this.canvas.toBlob(blob => resolve(blob), type, quality))
     }
 
-    exportMP4(name = "video.mp4") {
+    exportMP4(name = "smooth-video.mp4") {
         this.export().then(blob => {
             const a = document.createElement("a")
             a.href = URL.createObjectURL(blob)
