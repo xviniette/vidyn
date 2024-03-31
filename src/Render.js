@@ -173,20 +173,6 @@ export default class {
         progress.appendChild(progressBar)
         controls.appendChild(progress)
 
-        const watermark = document.createElement("a")
-        watermark.href = "https://smooth.video"
-        watermark.target = "_blank"
-        watermark.innerText = "Made with smooth.video"
-        watermark.style.position = "absolute"
-        watermark.style.textShadow = "0px 0px 2px black"
-        watermark.style.fontSize = "1em"
-        watermark.style.top = 0
-        watermark.style.right = 0
-        watermark.style.textDecoration = "none"
-        watermark.style.color = "white"
-
-        divElement.appendChild(watermark)
-
         this.UI = { play, timer, download, controls, parent: divElement, progress, progressBar }
     }
 
