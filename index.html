@@ -2,18 +2,57 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Video Browser Rendering</title>
+        <title>Example</title>
         <style>
-            body {
-                background-color: black;
+            #render {
+                border: 1px solid black;
+                max-width: 400px;
             }
         </style>
     </head>
     <body>
-        <script type="module" src="/main.js"></script>
         <div id="render"></div>
         <button id="download">Download</button>
+        <script type="module">
+            import Render from "./src/Render"
+
+            const render = new Render()
+
+            document.querySelector("#download").addEventListener("click", () => render.exportMP4())
+
+            render.setElement(document.querySelector("#render"))
+
+            render.set({
+                settings: {
+                    width: 400,
+                    height: 400,
+                    color: "#ffffff",
+                },
+                elements: [
+                    {
+                        type: "text",
+                        start: 0,
+                        duration: 2000,
+                        data: {
+                            text: "Hello world",
+                            x: 200,
+                            y: 200,
+                            fontSize: 30,
+                            fillStyle: "#000000",
+                        },
+                        animations: [
+                            {
+                                attribute: "alpha",
+                                from: 0,
+                                to: 1,
+                                start: 0,
+                                duration: 1000,
+                            },
+                        ],
+                    },
+                ],
+            })
+        </script>
     </body>
 </html>

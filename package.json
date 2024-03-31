@@ -1,6 +1,5 @@
 {
-    "name": "video-browser-rendering",
-    "private": true,
+    "name": "vidyn",
     "version": "0.0.0",
     "type": "module",
     "scripts": {
@@ -9,9 +8,7 @@
         "preview": "vite preview"
     },
     "devDependencies": {
-        "rollup-obfuscator": "^4.1.1",
-        "vite": "^5.1.6",
-        "vite-plugin-javascript-obfuscator": "^3.1.0"
+        "vite": "^5.1.6"
     },
     "dependencies": {
         "mp4-muxer": "^4.0.1"

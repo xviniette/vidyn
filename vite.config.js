@@ -1,8 +1,6 @@
 import { resolve } from "path"
 import { defineConfig } from "vite"
 
-import obfuscatorPlugin from "vite-plugin-javascript-obfuscator"
-
 export default defineConfig({
     build: {
         lib: {
@@ -11,9 +9,4 @@ export default defineConfig({
             fileName: "video-rendering",
         },
     },
-    plugins: [
-        obfuscatorPlugin({
-            options: {},
-        }),
-    ],
 })
