@@ -1,6 +1,4 @@
-# Vidyn
-
-Dynamic video rendering in the browser
+**Generate video** in the **browser**, exportable to **MP4**
 
 # Get started
 
@@ -64,7 +62,21 @@ npm install vidyn
 
 ![](./docs/helloworld.gif)
 
-# Video JSON Format
+## Download or Export Video
+
+```js
+const video = new Vidyn()
+
+// download MP4
+video.exportMP4("video.mp4") /
+
+// or
+
+// export video blob
+video.export().then(blob => { ... })
+```
+
+# JSON video format
 
 ```json
 {
@@ -139,26 +151,12 @@ npm install vidyn
 }
 ```
 
-## Download or Export Video
-
-```js
-const render = new VideoRendering()
-
-// download MP4
-render.exportMP4("video.mp4") /
-
-// or
-
-// export video blob
-render.export().then(blob => { ... })
-```
-
 ## Contributing
 
-Papermark is an open-source project and we welcome contributions from the community.
+Vidyn is an open-source project and we welcome contributions from the community.
 
 If you'd like to contribute, please fork the repository and make changes as you'd like. Pull requests are warmly welcome.
 
 ## Licencing
 
-[BUY LICENCE : 9$](https://vidyn.lemonsqueezy.com/buy/69f21a7e-09fa-46bf-9adb-6b7726e8736d)
+[BUY LICENCE : 9.99$/year](https://vidyn.lemonsqueezy.com/buy/69f21a7e-09fa-46bf-9adb-6b7726e8736d)
