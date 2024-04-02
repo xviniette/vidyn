@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Example</title>
+        <title>Vidyn Example</title>
         <style>
             #render {
                 border: 1px solid black;
@@ -15,9 +15,9 @@
         <div id="render"></div>
         <button id="download">Download</button>
         <script type="module">
-            import Render from "./src/Render"
+            import Vidyn from "./src/main"
 
-            const render = new Render()
+            const render = new Vidyn()
 
             document.querySelector("#download").addEventListener("click", () => render.exportMP4())
 
