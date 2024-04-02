@@ -1,9 +1,9 @@
 {
     "name": "vidyn",
     "description": "Video Editing in the browser",
-    "version": "0.0.0",
+    "version": "0.0.1",
     "type": "module",
-    "main": "src/main.js",
+    "main": "dist/vidyn.js",
     "scripts": {
         "dev": "vite",
         "build": "vite build",
