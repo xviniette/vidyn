@@ -1,9 +1,19 @@
 {
+    "version": "0.0.2",
     "name": "vidyn",
+    "files": [
+        "dist"
+    ],
+    "main": "./dist/vidyn.umd.cjs",
+    "module": "./dist/vidyn.js",
+    "exports": {
+        ".": {
+            "import": "./dist/vidyn.js",
+            "require": "./dist/vidyn.umd.cjs"
+        }
+    },
     "description": "Video Editing in the browser",
-    "version": "0.0.1",
     "type": "module",
-    "main": "dist/vidyn.js",
     "scripts": {
         "dev": "vite",
         "build": "vite build",

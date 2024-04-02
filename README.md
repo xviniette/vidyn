@@ -13,7 +13,7 @@ npm install vidyn
 **CDN**
 
 ```html
-<script src="https://cdn.smooth.video/video-rendering.j"></script>
+<script src="https://cdn.jsdelivr.net/npm/vidyn/dist/vidyn.umd.cjs"></script>
 ```
 
 ## Demo
