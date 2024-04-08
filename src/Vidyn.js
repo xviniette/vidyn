@@ -53,7 +53,7 @@ export default class {
 
     setCanvas(canvas) {
         this.canvas = canvas || document.createElement("canvas")
-        this.ctx = this.canvas.getContext("2d", { desynchronized: true })
+        this.ctx = this.canvas.getContext("2d", { desynchronized: true, willReadFrequently: true })
 
         this.canvas.style.width = "100%"
         this.canvas.style.height = "100%"
@@ -146,6 +146,7 @@ export default class {
             const x = e.clientX - rect.left
             this.setTimestamp((x / e.currentTarget.offsetWidth) * this.duration)
         }
+
         progress.addEventListener("pointerdown", e => {
             e.preventDefault()
             progress.pointerisdown = true
@@ -153,12 +154,14 @@ export default class {
             this.playing = false
             setTimestamp(e)
         })
+
         document.addEventListener("pointerup", e => {
             if (progress.pointerisdown) {
                 progress.pointerisdown = false
                 this.playing = progress.playing
             }
         })
+
         progress.addEventListener("pointermove", e => {
             e.preventDefault()
             if (progress.pointerisdown) setTimestamp(e)
