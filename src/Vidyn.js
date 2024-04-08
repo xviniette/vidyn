@@ -28,6 +28,8 @@ export default class {
 
         this.saves = {}
 
+        this.controls = true
+
         this.audioContext = new AudioContext()
         this.audioStream = this.audioContext.createMediaStreamDestination()
 
@@ -53,7 +55,7 @@ export default class {
 
     setCanvas(canvas) {
         this.canvas = canvas || document.createElement("canvas")
-        this.ctx = this.canvas.getContext("2d", { desynchronized: true, willReadFrequently: true })
+        this.ctx = this.canvas.getContext("2d", { desynchronized: true })
 
         this.canvas.style.width = "100%"
         this.canvas.style.height = "100%"
@@ -181,6 +183,9 @@ export default class {
 
     updateUI() {
         if (!this.UI) return
+
+        if (this.controls) this.UI.controls.style.display = "flex"
+        if (!this.controls) this.UI.controls.style.display = "none"
 
         if (!this.data) return
 
